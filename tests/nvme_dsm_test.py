@@ -45,10 +45,7 @@ class TestNVMeDsm(TestNVMe):
             - Returns:
                 - return code for nvme dsm command.
         """
-        dsm_cmd = "nvme dsm " + self.ctrl + \
-                  " --namespace-id=" + str(self.namespace) + \
-                  " --blocks=" + str(self.range) + \
-                  " --slbs=" + str(self.start_block)
+        dsm_cmd = f"nvme dsm {self.ctrl} --namespace-id={str(self.namespace)} --blocks={str(self.range)} --slbs={str(self.start_block)}"
         return self.exec_cmd(dsm_cmd)
 
     def test_dsm(self):

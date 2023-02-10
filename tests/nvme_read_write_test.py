@@ -48,10 +48,10 @@ class TestNVMeReadWriteTest(TestNVMeIO):
         """ Pre Section for TestNVMeReadWriteTest """
         super().setUp()
         self.start_block = 1023
-        self.test_log_dir = self.log_dir + "/" + self.__class__.__name__
+        self.test_log_dir = f"{self.log_dir}/{self.__class__.__name__}"
         self.setup_log_dir(self.__class__.__name__)
-        self.write_file = self.test_log_dir + "/" + self.write_file
-        self.read_file = self.test_log_dir + "/" + self.read_file
+        self.write_file = f"{self.test_log_dir}/{self.write_file}"
+        self.read_file = f"{self.test_log_dir}/{self.read_file}"
         self.create_data_file(self.write_file, self.data_size, "15")
         open(self.read_file, 'a').close()
 

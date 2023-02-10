@@ -77,7 +77,7 @@ class TestNVMeSmartLogCmd(TestNVMe):
                 - 0 on success, error code on failure.
         """
         ns_list = self.get_ns_list()
-        for nsid in range(0, len(ns_list)):
+        for nsid in range(len(ns_list)):
             self.get_smart_log_ns(ns_list[nsid])
         return 0
 

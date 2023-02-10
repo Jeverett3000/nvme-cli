@@ -57,8 +57,10 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
         self.feature_id_list = ["0x01", "0x02", "0x04", "0x05", "0x07",
                                 "0x08", "0x09", "0x0A", "0x0B"]
         device = self.ctrl.split('/')[-1]
-        get_vector_list_cmd = "grep " + device + "q /proc/interrupts |" \
-                              " cut -d : -f 1 | tr -d ' ' | tr '\n' ' '"
+        get_vector_list_cmd = (
+            f"grep {device}" + "q /proc/interrupts |"
+            " cut -d : -f 1 | tr -d ' ' | tr '\n' ' '"
+        )
         proc = subprocess.Popen(get_vector_list_cmd,
                                 shell=True,
                                 stdout=subprocess.PIPE,
@@ -81,9 +83,7 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
         """
         if str(feature_id) == "0x09":
             for vector in range(self.vector_list_len):
-                get_feat_cmd = "nvme get-feature " + self.ctrl + \
-                               " --feature-id=" + str(feature_id) + \
-                               " --cdw11=" + str(vector) + " -H"
+                get_feat_cmd = f"nvme get-feature {self.ctrl} --feature-id={str(feature_id)} --cdw11={str(vector)} -H"
                 proc = subprocess.Popen(get_feat_cmd,
                                         shell=True,
                                         stdout=subprocess.PIPE,
@@ -92,8 +92,9 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
                 print(feature_output)
                 self.assertEqual(proc.wait(), 0)
         else:
-            get_feat_cmd = "nvme get-feature " + self.ctrl + \
-                           " --feature-id=" + str(feature_id) + " -H"
+            get_feat_cmd = (
+                f"nvme get-feature {self.ctrl} --feature-id={str(feature_id)} -H"
+            )
             proc = subprocess.Popen(get_feat_cmd,
                                     shell=True,
                                     stdout=subprocess.PIPE,

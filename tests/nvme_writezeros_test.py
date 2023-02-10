@@ -53,9 +53,9 @@ class TestNVMeWriteZeros(TestNVMeIO):
         self.start_block = 1023
         self.block_count = 0
         self.setup_log_dir(self.__class__.__name__)
-        self.write_file = self.test_log_dir + "/" + self.write_file
-        self.read_file = self.test_log_dir + "/" + self.read_file
-        self.zero_file = self.test_log_dir + "/" + "zero_file.txt"
+        self.write_file = f"{self.test_log_dir}/{self.write_file}"
+        self.read_file = f"{self.test_log_dir}/{self.read_file}"
+        self.zero_file = f"{self.test_log_dir}/zero_file.txt"
         self.create_data_file(self.write_file, self.data_size, "15")
         self.create_data_file(self.zero_file, self.data_size, '\0')
         open(self.read_file, 'a').close()
@@ -71,9 +71,7 @@ class TestNVMeWriteZeros(TestNVMeIO):
             - Returns:
                 - return code for nvme write command.
         """
-        write_zeroes_cmd = "nvme write-zeroes " + self.ns1 + \
-                           " --start-block=" + str(self.start_block) + \
-                           " --block-count=" + str(self.block_count)
+        write_zeroes_cmd = f"nvme write-zeroes {self.ns1} --start-block={str(self.start_block)} --block-count={str(self.block_count)}"
         return self.exec_cmd(write_zeroes_cmd)
 
     def validate_write_read(self):

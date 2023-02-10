@@ -50,20 +50,14 @@ class TestNVMeGetLbaStatusCmd(TestNVMe):
                 - 0 on success, error code on failure.
         """
         err = 0
-        get_lba_status_cmd = "nvme get-lba-status " + self.ctrl + \
-                             " --namespace-id=" + str(self.namespace) + \
-                             " --start-lba=" + str(self.start_lba) + \
-                             " --max-dw=" + str(self.max_dw) + \
-                             " --action=" + str(self.action) + \
-                             " --range-len=" + str(self.range_len)
+        get_lba_status_cmd = f"nvme get-lba-status {self.ctrl} --namespace-id={str(self.namespace)} --start-lba={str(self.start_lba)} --max-dw={str(self.max_dw)} --action={str(self.action)} --range-len={str(self.range_len)}"
         proc = subprocess.Popen(get_lba_status_cmd,
                                 shell=True,
                                 stdout=subprocess.PIPE,
                                 encoding='utf-8')
         get_lba_status_output = proc.communicate()[0]
         print("\n" + get_lba_status_output + "\n")
-        err = proc.wait()
-        return err
+        return proc.wait()
 
     def test_get_lba_status(self):
         """ Testcase main """

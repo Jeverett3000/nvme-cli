@@ -51,8 +51,8 @@ class TestNVMeCompareCmd(TestNVMeIO):
         self.data_size = 1024
         self.start_block = 1023
         self.setup_log_dir(self.__class__.__name__)
-        self.compare_file = self.test_log_dir + "/" + "compare_file.txt"
-        self.write_file = self.test_log_dir + "/" + self.write_file
+        self.compare_file = f"{self.test_log_dir}/compare_file.txt"
+        self.write_file = f"{self.test_log_dir}/{self.write_file}"
         self.create_data_file(self.write_file, self.data_size, "15")
         self.create_data_file(self.compare_file, self.data_size, "25")
 
@@ -67,10 +67,7 @@ class TestNVMeCompareCmd(TestNVMeIO):
            - Returns:
                - return code of the nvme compare command.
         """
-        compare_cmd = "nvme compare " + self.ns1 + " --start-block=" + \
-                      str(self.start_block) + " --block-count=" + \
-                      str(self.block_count) + " --data-size=" + \
-                      str(self.data_size) + " --data=" + cmp_file
+        compare_cmd = f"nvme compare {self.ns1} --start-block={str(self.start_block)} --block-count={str(self.block_count)} --data-size={str(self.data_size)} --data={cmp_file}"
         return self.exec_cmd(compare_cmd)
 
     def test_nvme_compare(self):

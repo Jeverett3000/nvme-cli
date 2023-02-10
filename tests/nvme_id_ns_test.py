@@ -61,15 +61,14 @@ class TestNVMeIdentifyNamespace(TestNVMe):
                 - 0 on success, error code on failure.
         """
         err = 0
-        id_ns_cmd = "nvme id-ns " + self.ctrl + "n" + str(nsid)
+        id_ns_cmd = f"nvme id-ns {self.ctrl}n{str(nsid)}"
         proc = subprocess.Popen(id_ns_cmd,
                                 shell=True,
                                 stdout=subprocess.PIPE,
                                 encoding='utf-8')
         id_ns_output = proc.communicate()[0]
         print(id_ns_output + "\n")
-        err = proc.wait()
-        return err
+        return proc.wait()
 
     def get_id_ns_all(self):
         """

@@ -47,11 +47,7 @@ class TestNVMeCopy(TestNVMe):
             - Returns:
                 - return code for nvme copy command.
         """
-        copy_cmd = "nvme copy " + self.ctrl + \
-                   " --namespace-id=" + str(self.namespace) + \
-                   " --sdlba=" + str(self.start_block) + \
-                   " --blocks=" + str(self.range) + \
-                   " --slbs=" + str(self.range)
+        copy_cmd = f"nvme copy {self.ctrl} --namespace-id={str(self.namespace)} --sdlba={str(self.start_block)} --blocks={str(self.range)} --slbs={str(self.range)}"
         return self.exec_cmd(copy_cmd)
 
     def test_copy(self):

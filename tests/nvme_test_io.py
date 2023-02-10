@@ -63,12 +63,11 @@ class TestNVMeIO(TestNVMe):
             None
         """
         pattern_len = len(pattern)
-        data_file = open(pathname, "w")
-        for i in range(0, data_size):
-            data_file.write(pattern[i % pattern_len])
-        data_file.flush()
-        os.fsync(data_file.fileno())
-        data_file.close()
+        with open(pathname, "w") as data_file:
+            for i in range(data_size):
+                data_file.write(pattern[i % pattern_len])
+            data_file.flush()
+            os.fsync(data_file.fileno())
 
     def nvme_write(self):
         """ Wrapper for nvme write operation
@@ -77,10 +76,7 @@ class TestNVMeIO(TestNVMe):
             - Returns:
                 - return code for nvme write command.
         """
-        write_cmd = "nvme write " + self.ns1 + " --start-block=" + \
-                    str(self.start_block) + " --block-count=" + \
-                    str(self.block_count) + " --data-size=" + \
-                    str(self.data_size) + " --data=" + self.write_file
+        write_cmd = f"nvme write {self.ns1} --start-block={str(self.start_block)} --block-count={str(self.block_count)} --data-size={str(self.data_size)} --data={self.write_file}"
         return self.exec_cmd(write_cmd)
 
     def nvme_read(self):
@@ -90,9 +86,6 @@ class TestNVMeIO(TestNVMe):
             - Returns:
                 - return code for nvme read command.
         """
-        read_cmd = "nvme read " + self.ns1 + " --start-block=" + \
-                   str(self.start_block) + " --block-count=" + \
-                   str(self.block_count) + " --data-size=" + \
-                   str(self.data_size) + " --data=" + self.read_file
+        read_cmd = f"nvme read {self.ns1} --start-block={str(self.start_block)} --block-count={str(self.block_count)} --data-size={str(self.data_size)} --data={self.read_file}"
         print(read_cmd)
         return self.exec_cmd(read_cmd)
